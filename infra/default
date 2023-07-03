@@ -1,0 +1,98 @@
+server {
+    listen 80;
+    server_name kittygrampracticum.ddns.net;
+
+    location /api/ {
+        proxy_pass http://127.0.0.1:8080;
+        client_max_body_size 20M;
+    }
+
+    location /admin/ {
+        proxy_pass http://127.0.0.1:8080;
+        client_max_body_size 20M;
+    }
+
+    location / {
+        root   /var/www/kittygram;
+        index  index.html index.htm;
+        try_files $uri /index.html;
+    }
+
+    location /media/ {
+        alias /var/www/kittygram/media/;
+    }
+}
+
+server {
+    listen 80;
+    server_name taskiprakticum.ddns.net;
+
+    location /api/ {
+        proxy_pass http://127.0.0.1:8000;
+    }
+
+    location /admin/ {
+        proxy_pass http://127.0.0.1:8000;
+    }
+
+    location / {
+        root   /var/www/taski;
+        index  index.html index.htm;
+        try_files $uri /index.html;
+    }
+}
+
+server {
+    listen 443 ssl;
+    server_name kittygrampracticum.ddns.net;
+
+    location /api/ {
+        proxy_pass http://127.0.0.1:8080;
+        client_max_body_size 20M;
+    }
+
+    location /admin/ {
+        proxy_pass http://127.0.0.1:8080;
+        client_max_body_size 20M;
+    }
+
+    location / {
+        root   /var/www/kittygram;
+        index  index.html index.htm;
+        try_files $uri /index.html;
+    }
+
+    location /media/ {
+        alias /var/www/kittygram/media/;
+    }
+
+    ssl_certificate /etc/letsencrypt/live/kittygrampracticum.ddns.net/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/kittygrampracticum.ddns.net/privkey.pem;
+    include /etc/letsencrypt/options-ssl-nginx.conf;
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
+}
+
+server {
+    listen 443 ssl;
+    server_name taskiprakticum.ddns.net;
+
+    location /api/ {
+        proxy_pass http://127.0.0.1:8000;
+    }
+
+    location /admin/ {
+        proxy_pass http://127.0.0.1:8000;
+    }
+
+    location / {
+        root   /var/www/taski;
+        index  index.html index.htm;
+        try_files $uri /index.html;
+    }
+
+    ssl_certificate /etc/letsencrypt/live/taskiprakticum.ddns.net/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/taskiprakticum.ddns.net/privkey.pem;
+    include /etc/letsencrypt/options-ssl-nginx.conf;
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
+}
+
